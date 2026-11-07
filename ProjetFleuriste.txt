@@ -1,0 +1,1175 @@
+// SCRIPT MONGODB 
+
+use("fleurs_db");
+
+// CATEGORIES 
+db.categories.drop();
+db.categories.insertMany([
+  { _id: ObjectId("aaa000000000000000000001"), nom: "Roses", description: "Toutes variétés de roses" },
+  { _id: ObjectId("aaa000000000000000000002"), nom: "Bouquets composés", description: "Arrangements floraux mixtes" },
+  { _id: ObjectId("aaa000000000000000000003"), nom: "Plantes vertes", description: "Plantes d'intérieur et extérieur" },
+  { _id: ObjectId("aaa000000000000000000004"), nom: "Fleurs séchées", description: "Compositions durables en fleurs séchées" },
+  { _id: ObjectId("aaa000000000000000000005"), nom: "Accessoires floraux", description: "Vases, rubans, emballages cadeaux" }
+]);
+
+// CLIENTS 
+db.clients.drop();
+db.clients.insertMany([
+  {
+    _id: ObjectId("bbb000000000000000000001"),
+    nom: "Manel Hattab",
+    email: "manel.hattab@email.com",
+    telephone: "+216 20 100 001",
+    adresse: { rue: "14 Av. Habib Bourguiba", ville: "Tunis", code_postal: "1000", pays: "Tunisie" },
+    date_inscription: new Date("2023-02-10"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000002"),
+    nom: "Derine Mnasri",
+    email: "derine.mnasri@email.com",
+    telephone: "+216 25 200 002",
+    adresse: { rue: "3 Rue de la Paix", ville: "Sfax", code_postal: "3000", pays: "Tunisie" },
+    date_inscription: new Date("2023-04-18"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000003"),
+    nom: "Oumayma Kammoun",
+    email: "oumayma.kammoun@email.com",
+    telephone: "+216 22 300 003",
+    adresse: { rue: "9 Rue des Fleurs", ville: "Sousse", code_postal: "4000", pays: "Tunisie" },
+    date_inscription: new Date("2023-05-22"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000004"),
+    nom: "Mariem Jouili",
+    email: "mariem.jouili@email.com",
+    telephone: "+216 23 400 004",
+    adresse: { rue: "27 Av. du Jasmin", ville: "Monastir", code_postal: "5000", pays: "Tunisie" },
+    date_inscription: new Date("2023-06-30"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000005"),
+    nom: "Fatma Chairi",
+    email: "fatma.chairi@email.com",
+    telephone: "+216 26 500 005",
+    adresse: { rue: "5 Rue de la Rose", ville: "Bizerte", code_postal: "7000", pays: "Tunisie" },
+    date_inscription: new Date("2023-07-15"),
+    actif: false
+  },
+  {
+    _id: ObjectId("bbb000000000000000000006"),
+    nom: "Yousra Hammami",
+    email: "yousra.hammami@email.com",
+    telephone: "+216 27 600 006",
+    adresse: { rue: "11 Cité des Oliviers", ville: "Ariana", code_postal: "2080", pays: "Tunisie" },
+    date_inscription: new Date("2023-09-01"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000007"),
+    nom: "Riadh Ferchichi",
+    email: "riadh.ferchichi@email.com",
+    telephone: "+216 28 700 007",
+    adresse: { rue: "6 Rue Tahar Sfar", ville: "La Marsa", code_postal: "2070", pays: "Tunisie" },
+    date_inscription: new Date("2023-10-05"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000008"),
+    nom: "Nour Jelassi",
+    email: "nour.jelassi@email.com",
+    telephone: "+216 29 800 008",
+    adresse: { rue: "33 Av. de Carthage", ville: "Tunis", code_postal: "1001", pays: "Tunisie" },
+    date_inscription: new Date("2023-11-12"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000009"),
+    nom: "Mehdi Ouali",
+    email: "mehdi.ouali@email.com",
+    telephone: "+216 20 900 009",
+    adresse: { rue: "18 Rue Ibn Rachiq", ville: "Kairouan", code_postal: "3100", pays: "Tunisie" },
+    date_inscription: new Date("2024-01-20"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000010"),
+    nom: "Ines Zouari",
+    email: "ines.zouari@email.com",
+    telephone: "+216 21 000 010",
+    adresse: { rue: "2 Rue du Lac", ville: "Tunis", code_postal: "1053", pays: "Tunisie" },
+    date_inscription: new Date("2024-02-08"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000011"),
+    nom: "Tarek Ayari",
+    email: "tarek.ayari@email.com",
+    telephone: "+216 22 010 011",
+    adresse: { rue: "44 Rue Sidi Bou Said", ville: "Nabeul", code_postal: "8000", pays: "Tunisie" },
+    date_inscription: new Date("2024-03-03"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000012"),
+    nom: "Lina Boughanmi",
+    email: "lina.boughanmi@email.com",
+    telephone: "+216 23 020 012",
+    adresse: { rue: "7 Av. de l'Indépendance", ville: "Gabes", code_postal: "6000", pays: "Tunisie" },
+    date_inscription: new Date("2024-04-01"),
+    actif: true
+  }
+]);
+
+// PRODUITS (avis EMBEDDED)
+db.produits.drop();
+db.produits.insertMany([
+  {
+    _id: ObjectId("ccc000000000000000000001"),
+    nom: "Bouquet de Roses Rouges (12 tiges)",
+    description: "12 roses rouges fraîches, idéales pour la Saint-Valentin",
+    prix: 45.00,
+    stock: 80,
+    couleur: "rouge",
+    categorie_id: ObjectId("aaa000000000000000000001"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000001"), note: 5, commentaire: "Magnifiques, très fraîches à la réception!", date: new Date("2024-02-15") },
+      { client_id: ObjectId("bbb000000000000000000003"), note: 5, commentaire: "Ma femme a adoré, livraison rapide", date: new Date("2024-02-16") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000002"),
+    nom: "Roses Blanches Premium (6 tiges)",
+    description: "6 roses blanches longues tiges, emballage luxe",
+    prix: 28.00,
+    stock: 60,
+    couleur: "blanc",
+    categorie_id: ObjectId("aaa000000000000000000001"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000002"), note: 4, commentaire: "Très belles mais légèrement petites", date: new Date("2024-03-10") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000003"),
+    nom: "Roses Jaunes Sunshine (10 tiges)",
+    description: "10 roses jaunes symbolisant l'amitié et la joie",
+    prix: 35.00,
+    stock: 50,
+    couleur: "jaune",
+    categorie_id: ObjectId("aaa000000000000000000001"),
+    avis: []
+  },
+  {
+    _id: ObjectId("ccc000000000000000000004"),
+    nom: "Roses Roses Romantiques (20 tiges)",
+    description: "20 roses roses pour célébrer l'amour",
+    prix: 65.00,
+    stock: 40,
+    couleur: "rose",
+    categorie_id: ObjectId("aaa000000000000000000001"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000004"), note: 5, commentaire: "Parfaites pour l'anniversaire de mariage!", date: new Date("2024-04-02") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000005"),
+    nom: "Bouquet Champêtre Printanier",
+    description: "Mélange de tulipes, marguerites et gypsophile",
+    prix: 38.00,
+    stock: 35,
+    couleur: "multicolore",
+    categorie_id: ObjectId("aaa000000000000000000002"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000005"), note: 4, commentaire: "Très joli, sent bon, dure une semaine", date: new Date("2024-03-20") },
+      { client_id: ObjectId("bbb000000000000000000006"), note: 5, commentaire: "Original et frais, parfait pour offrir", date: new Date("2024-03-25") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000006"),
+    nom: "Bouquet Tropical Exotique",
+    description: "Orchidées, anthuriums et feuilles tropicales",
+    prix: 72.00,
+    stock: 20,
+    couleur: "multicolore",
+    categorie_id: ObjectId("aaa000000000000000000002"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000007"), note: 5, commentaire: "Wow, absolument magnifique et original!", date: new Date("2024-04-08") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000007"),
+    nom: "Bouquet Lavande & Eucalyptus",
+    description: "Bouquet aromatique, senteur apaisante",
+    prix: 32.00,
+    stock: 45,
+    couleur: "violet",
+    categorie_id: ObjectId("aaa000000000000000000002"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000008"), note: 4, commentaire: "Senteur sublime, décoration parfaite", date: new Date("2024-04-12") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000008"),
+    nom: "Bouquet Mariée Blanc & Vert",
+    description: "Composition de mariage avec roses blanches et verdure",
+    prix: 120.00,
+    stock: 15,
+    couleur: "blanc",
+    categorie_id: ObjectId("aaa000000000000000000002"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000009"), note: 5, commentaire: "Mon bouquet de mariée, exactement comme je voulais!", date: new Date("2024-04-20") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000009"),
+    nom: "Monstera Deliciosa (grand)",
+    description: "Plante tropicale, feuilles découpées, pot 24cm inclus",
+    prix: 55.00,
+    stock: 25,
+    couleur: "vert",
+    categorie_id: ObjectId("aaa000000000000000000003"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000010"), note: 5, commentaire: "Plante magnifique, bien emballée", date: new Date("2024-03-15") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000010"),
+    nom: "Cactus Cereus (trio)",
+    description: "Trio de cactus dans pot céramique blanc",
+    prix: 22.00,
+    stock: 60,
+    couleur: "vert",
+    categorie_id: ObjectId("aaa000000000000000000003"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000011"), note: 4, commentaire: "Mignon et facile d'entretien", date: new Date("2024-04-05") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000011"),
+    nom: "Orchidée Phalaenopsis Blanche",
+    description: "Orchidée blanche en pot, 2 tiges fleuries",
+    prix: 42.00,
+    stock: 30,
+    couleur: "blanc",
+    categorie_id: ObjectId("aaa000000000000000000003"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000012"), note: 5, commentaire: "Superbe, elle fleurit encore 3 semaines après!", date: new Date("2024-04-15") },
+      { client_id: ObjectId("bbb000000000000000000001"), note: 4, commentaire: "Très belle mais arrosage délicat", date: new Date("2024-04-18") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000012"),
+    nom: "Ficus Lyrata (Fiddle Leaf Fig)",
+    description: "Plante tendance, grandes feuilles brillantes, pot 21cm",
+    prix: 68.00,
+    stock: 18,
+    couleur: "vert",
+    categorie_id: ObjectId("aaa000000000000000000003"),
+    avis: []
+  },
+  {
+    _id: ObjectId("ccc000000000000000000013"),
+    nom: "Couronne de Fleurs Séchées",
+    description: "Lavande, immortelles et eucalyptus, diamètre 30cm",
+    prix: 48.00,
+    stock: 22,
+    couleur: "violet",
+    categorie_id: ObjectId("aaa000000000000000000004"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000002"), note: 5, commentaire: "Dure des années, cadeau idéal!", date: new Date("2024-02-20") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000014"),
+    nom: "Bouquet Séché Boho",
+    description: "Pampa, lunaire et roses séchées, ambiance bohème",
+    prix: 35.00,
+    stock: 40,
+    couleur: "beige",
+    categorie_id: ObjectId("aaa000000000000000000004"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000003"), note: 4, commentaire: "Très tendance, s'intègre bien dans mon salon", date: new Date("2024-03-28") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000015"),
+    nom: "Cadre Floral Séché",
+    description: "Fleurs séchées dans cadre vitré 20x25cm, décoration murale",
+    prix: 58.00,
+    stock: 15,
+    couleur: "multicolore",
+    categorie_id: ObjectId("aaa000000000000000000004"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000004"), note: 5, commentaire: "Magnifique cadeau d'anniversaire, très original", date: new Date("2024-04-10") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000016"),
+    nom: "Vase en Verre Soufflé",
+    description: "Vase artisanal transparent, forme arrondie, 30cm",
+    prix: 29.00,
+    stock: 50,
+    couleur: "transparent",
+    categorie_id: ObjectId("aaa000000000000000000005"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000005"), note: 4, commentaire: "Élégant et bien proportionné", date: new Date("2024-03-05") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000017"),
+    nom: "Kit Emballage Cadeau Floral",
+    description: "Papier kraft, ruban satin, étiquettes - pour 5 bouquets",
+    prix: 12.00,
+    stock: 120,
+    couleur: "multicolore",
+    categorie_id: ObjectId("aaa000000000000000000005"),
+    avis: []
+  },
+  {
+    _id: ObjectId("ccc000000000000000000018"),
+    nom: "Vase Céramique Artisanal",
+    description: "Vase en céramique fait main, couleur terracotta, 20cm",
+    prix: 38.00,
+    stock: 35,
+    couleur: "terracotta",
+    categorie_id: ObjectId("aaa000000000000000000005"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000006"), note: 5, commentaire: "Artisanat magnifique, unique pièce!", date: new Date("2024-04-02") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000019"),
+    nom: "Conservateur Floral (1L)",
+    description: "Solution nutritive pour prolonger la vie des fleurs coupées",
+    prix: 8.00,
+    stock: 200,
+    couleur: null,
+    categorie_id: ObjectId("aaa000000000000000000005"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000007"), note: 5, commentaire: "Mes roses ont duré 15 jours avec ce produit!", date: new Date("2024-04-15") }
+    ]
+  },
+  {
+    _id: ObjectId("ccc000000000000000000020"),
+    nom: "Box Surprise Florale Mensuelle",
+    description: "Abonnement mensuel : bouquet surprise de saison livré chez vous",
+    prix: 55.00,
+    stock: 30,
+    couleur: "multicolore",
+    categorie_id: ObjectId("aaa000000000000000000002"),
+    avis: [
+      { client_id: ObjectId("bbb000000000000000000008"), note: 5, commentaire: "Super concept, chaque mois une belle surprise!", date: new Date("2024-03-30") },
+      { client_id: ObjectId("bbb000000000000000000010"), note: 4, commentaire: "Très bonne qualité, je recommande", date: new Date("2024-04-05") }
+    ]
+  }
+]);
+
+// COMMANDES
+db.commandes.drop();
+db.commandes.insertMany([
+  {
+    _id: ObjectId("ddd000000000000000000001"),
+    client_id: ObjectId("bbb000000000000000000001"),
+    date_commande: new Date("2024-02-14"),
+    statut: "livree",
+    message_cadeau: "Joyeuse Saint-Valentin mon amour!",
+    adresse_livraison: { rue: "14 Av. Habib Bourguiba", ville: "Tunis", code_postal: "1000" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000001"), nom_produit: "Bouquet de Roses Rouges (12 tiges)", quantite: 1, prix_unitaire: 45.00 },
+      { produit_id: ObjectId("ccc000000000000000000016"), nom_produit: "Vase en Verre Soufflé", quantite: 1, prix_unitaire: 29.00 }
+    ],
+    total: 74.00,
+    paiement: "carte"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000002"),
+    client_id: ObjectId("bbb000000000000000000002"),
+    date_commande: new Date("2024-02-20"),
+    statut: "livree",
+    message_cadeau: null,
+    adresse_livraison: { rue: "3 Rue de la Paix", ville: "Sfax", code_postal: "3000" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000013"), nom_produit: "Couronne de Fleurs Séchées", quantite: 1, prix_unitaire: 48.00 }
+    ],
+    total: 48.00,
+    paiement: "virement"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000003"),
+    client_id: ObjectId("bbb000000000000000000003"),
+    date_commande: new Date("2024-03-08"),
+    statut: "livree",
+    message_cadeau: "Bonne fête maman!",
+    adresse_livraison: { rue: "9 Rue des Fleurs", ville: "Sousse", code_postal: "4000" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000005"), nom_produit: "Bouquet Champêtre Printanier", quantite: 1, prix_unitaire: 38.00 },
+      { produit_id: ObjectId("ccc000000000000000000017"), nom_produit: "Kit Emballage Cadeau Floral", quantite: 1, prix_unitaire: 12.00 }
+    ],
+    total: 50.00,
+    paiement: "paypal"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000004"),
+    client_id: ObjectId("bbb000000000000000000004"),
+    date_commande: new Date("2024-04-01"),
+    statut: "livree",
+    message_cadeau: "Joyeux anniversaire!",
+    adresse_livraison: { rue: "27 Av. du Jasmin", ville: "Monastir", code_postal: "5000" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000004"), nom_produit: "Roses Roses Romantiques (20 tiges)", quantite: 1, prix_unitaire: 65.00 },
+      { produit_id: ObjectId("ccc000000000000000000015"), nom_produit: "Cadre Floral Séché", quantite: 1, prix_unitaire: 58.00 }
+    ],
+    total: 123.00,
+    paiement: "carte"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000005"),
+    client_id: ObjectId("bbb000000000000000000005"),
+    date_commande: new Date("2024-03-18"),
+    statut: "annulee",
+    message_cadeau: null,
+    adresse_livraison: { rue: "5 Rue de la Rose", ville: "Bizerte", code_postal: "7000" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000011"), nom_produit: "Orchidée Phalaenopsis Blanche", quantite: 1, prix_unitaire: 42.00 }
+    ],
+    total: 42.00,
+    paiement: "carte"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000006"),
+    client_id: ObjectId("bbb000000000000000000006"),
+    date_commande: new Date("2024-04-05"),
+    statut: "livree",
+    message_cadeau: null,
+    adresse_livraison: { rue: "11 Cité des Oliviers", ville: "Ariana", code_postal: "2080" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000018"), nom_produit: "Vase Céramique Artisanal", quantite: 2, prix_unitaire: 38.00 }
+    ],
+    total: 76.00,
+    paiement: "virement"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000007"),
+    client_id: ObjectId("bbb000000000000000000007"),
+    date_commande: new Date("2024-04-08"),
+    statut: "livree",
+    message_cadeau: null,
+    adresse_livraison: { rue: "6 Rue Tahar Sfar", ville: "La Marsa", code_postal: "2070" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000006"), nom_produit: "Bouquet Tropical Exotique", quantite: 1, prix_unitaire: 72.00 },
+      { produit_id: ObjectId("ccc000000000000000000019"), nom_produit: "Conservateur Floral (1L)", quantite: 2, prix_unitaire: 8.00 }
+    ],
+    total: 88.00,
+    paiement: "carte"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000008"),
+    client_id: ObjectId("bbb000000000000000000008"),
+    date_commande: new Date("2024-04-10"),
+    statut: "en_cours",
+    message_cadeau: null,
+    adresse_livraison: { rue: "33 Av. de Carthage", ville: "Tunis", code_postal: "1001" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000020"), nom_produit: "Box Surprise Florale Mensuelle", quantite: 1, prix_unitaire: 55.00 }
+    ],
+    total: 55.00,
+    paiement: "paypal"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000009"),
+    client_id: ObjectId("bbb000000000000000000009"),
+    date_commande: new Date("2024-04-18"),
+    statut: "livree",
+    message_cadeau: "Pour le plus beau jour de notre vie!",
+    adresse_livraison: { rue: "18 Rue Ibn Rachiq", ville: "Kairouan", code_postal: "3100" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000008"), nom_produit: "Bouquet Mariée Blanc & Vert", quantite: 1, prix_unitaire: 120.00 },
+      { produit_id: ObjectId("ccc000000000000000000002"), nom_produit: "Roses Blanches Premium (6 tiges)", quantite: 5, prix_unitaire: 28.00 }
+    ],
+    total: 260.00,
+    paiement: "virement"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000010"),
+    client_id: ObjectId("bbb000000000000000000010"),
+    date_commande: new Date("2024-04-20"),
+    statut: "en_cours",
+    message_cadeau: null,
+    adresse_livraison: { rue: "2 Rue du Lac", ville: "Tunis", code_postal: "1053" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000009"), nom_produit: "Monstera Deliciosa (grand)", quantite: 1, prix_unitaire: 55.00 },
+      { produit_id: ObjectId("ccc000000000000000000011"), nom_produit: "Orchidée Phalaenopsis Blanche", quantite: 1, prix_unitaire: 42.00 }
+    ],
+    total: 97.00,
+    paiement: "carte"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000011"),
+    client_id: ObjectId("bbb000000000000000000011"),
+    date_commande: new Date("2024-04-22"),
+    statut: "livree",
+    message_cadeau: null,
+    adresse_livraison: { rue: "44 Rue Sidi Bou Said", ville: "Nabeul", code_postal: "8000" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000010"), nom_produit: "Cactus Cereus (trio)", quantite: 3, prix_unitaire: 22.00 },
+      { produit_id: ObjectId("ccc000000000000000000012"), nom_produit: "Ficus Lyrata (Fiddle Leaf Fig)", quantite: 1, prix_unitaire: 68.00 }
+    ],
+    total: 134.00,
+    paiement: "carte"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000012"),
+    client_id: ObjectId("bbb000000000000000000001"),
+    date_commande: new Date("2024-04-25"),
+    statut: "en_cours",
+    message_cadeau: "Merci pour tout!",
+    adresse_livraison: { rue: "14 Av. Habib Bourguiba", ville: "Tunis", code_postal: "1000" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000007"), nom_produit: "Bouquet Lavande & Eucalyptus", quantite: 1, prix_unitaire: 32.00 },
+      { produit_id: ObjectId("ccc000000000000000000016"), nom_produit: "Vase en Verre Soufflé", quantite: 1, prix_unitaire: 29.00 }
+    ],
+    total: 61.00,
+    paiement: "paypal"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000013"),
+    client_id: ObjectId("bbb000000000000000000012"),
+    date_commande: new Date("2024-04-28"),
+    statut: "livree",
+    message_cadeau: null,
+    adresse_livraison: { rue: "7 Av. de l'Indépendance", ville: "Gabes", code_postal: "6000" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000014"), nom_produit: "Bouquet Séché Boho", quantite: 2, prix_unitaire: 35.00 }
+    ],
+    total: 70.00,
+    paiement: "carte"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000014"),
+    client_id: ObjectId("bbb000000000000000000003"),
+    date_commande: new Date("2024-05-01"),
+    statut: "livree",
+    message_cadeau: null,
+    adresse_livraison: { rue: "9 Rue des Fleurs", ville: "Sousse", code_postal: "4000" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000001"), nom_produit: "Bouquet de Roses Rouges (12 tiges)", quantite: 2, prix_unitaire: 45.00 },
+      { produit_id: ObjectId("ccc000000000000000000017"), nom_produit: "Kit Emballage Cadeau Floral", quantite: 2, prix_unitaire: 12.00 }
+    ],
+    total: 114.00,
+    paiement: "virement"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000015"),
+    client_id: ObjectId("bbb000000000000000000002"),
+    date_commande: new Date("2024-05-03"),
+    statut: "en_cours",
+    message_cadeau: "Félicitations!",
+    adresse_livraison: { rue: "3 Rue de la Paix", ville: "Sfax", code_postal: "3000" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000003"), nom_produit: "Roses Jaunes Sunshine (10 tiges)", quantite: 1, prix_unitaire: 35.00 },
+      { produit_id: ObjectId("ccc000000000000000000019"), nom_produit: "Conservateur Floral (1L)", quantite: 1, prix_unitaire: 8.00 }
+    ],
+    total: 43.00,
+    paiement: "carte"
+  }
+]);
+
+print("=== BASE fleurs_db CRÉÉE AVEC SUCCÈS ===");
+print("clients     : " + db.clients.countDocuments());
+print("produits    : " + db.produits.countDocuments());
+print("commandes   : " + db.commandes.countDocuments());
+print("categories  : " + db.categories.countDocuments());
+
+use("fleurs_db");
+
+//  8 CLIENTS SUPPLÉMENTAIRES
+db.clients.insertMany([
+  {
+    _id: ObjectId("bbb000000000000000000013"),
+    nom: "Sami Belhadj",
+    email: "sami.belhadj@email.com",
+    telephone: "+216 24 130 013",
+    adresse: { rue: "12 Rue des Roses", ville: "Tunis", code_postal: "1002", pays: "Tunisie" },
+    date_inscription: new Date("2024-04-05"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000014"),
+    nom: "Rim Saidi",
+    email: "rim.saidi@email.com",
+    telephone: "+216 25 140 014",
+    adresse: { rue: "3 Av. de la Liberté", ville: "Sfax", code_postal: "3001", pays: "Tunisie" },
+    date_inscription: new Date("2024-04-10"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000015"),
+    nom: "Khalil Mansour",
+    email: "khalil.mansour@email.com",
+    telephone: "+216 26 150 015",
+    adresse: { rue: "8 Rue du Jasmin", ville: "Sousse", code_postal: "4001", pays: "Tunisie" },
+    date_inscription: new Date("2024-04-12"),
+    actif: false
+  },
+  {
+    _id: ObjectId("bbb000000000000000000016"),
+    nom: "Dorra Belhaj",
+    email: "dorra.belhaj@email.com",
+    telephone: "+216 27 160 016",
+    adresse: { rue: "19 Rue de la Mer", ville: "Bizerte", code_postal: "7001", pays: "Tunisie" },
+    date_inscription: new Date("2024-04-15"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000017"),
+    nom: "Fares Khelifi",
+    email: "fares.khelifi@email.com",
+    telephone: "+216 28 170 017",
+    adresse: { rue: "22 Av. Bourguiba", ville: "Nabeul", code_postal: "8001", pays: "Tunisie" },
+    date_inscription: new Date("2024-04-18"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000018"),
+    nom: "Asma Ghariani",
+    email: "asma.ghariani@email.com",
+    telephone: "+216 29 180 018",
+    adresse: { rue: "5 Rue Ibn Sina", ville: "Kairouan", code_postal: "3101", pays: "Tunisie" },
+    date_inscription: new Date("2024-04-20"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000019"),
+    nom: "Zied Rekik",
+    email: "zied.rekik@email.com",
+    telephone: "+216 20 190 019",
+    adresse: { rue: "33 Rue de Tunis", ville: "Ariana", code_postal: "2081", pays: "Tunisie" },
+    date_inscription: new Date("2024-04-22"),
+    actif: true
+  },
+  {
+    _id: ObjectId("bbb000000000000000000020"),
+    nom: "Hajer Trabelsi",
+    email: "hajer.trabelsi@email.com",
+    telephone: "+216 21 200 020",
+    adresse: { rue: "14 Rue de la Paix", ville: "La Marsa", code_postal: "2071", pays: "Tunisie" },
+    date_inscription: new Date("2024-04-25"),
+    actif: true
+  }
+]);
+
+// 5 COMMANDES SUPPLÉMENTAIRES 
+db.commandes.insertMany([
+  {
+    _id: ObjectId("ddd000000000000000000016"),
+    client_id: ObjectId("bbb000000000000000000013"),
+    date_commande: new Date("2024-05-04"),
+    statut: "livree",
+    message_cadeau: "Bonne fête!",
+    adresse_livraison: { rue: "12 Rue des Roses", ville: "Tunis", code_postal: "1002" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000004"), nom_produit: "Roses Roses Romantiques (20 tiges)", quantite: 1, prix_unitaire: 65.00 },
+      { produit_id: ObjectId("ccc000000000000000000017"), nom_produit: "Kit Emballage Cadeau Floral", quantite: 1, prix_unitaire: 12.00 }
+    ],
+    total: 77.00,
+    paiement: "carte"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000017"),
+    client_id: ObjectId("bbb000000000000000000014"),
+    date_commande: new Date("2024-05-05"),
+    statut: "en_cours",
+    message_cadeau: null,
+    adresse_livraison: { rue: "3 Av. de la Liberté", ville: "Sfax", code_postal: "3001" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000009"), nom_produit: "Monstera Deliciosa (grand)", quantite: 1, prix_unitaire: 55.00 },
+      { produit_id: ObjectId("ccc000000000000000000010"), nom_produit: "Cactus Cereus (trio)", quantite: 2, prix_unitaire: 22.00 }
+    ],
+    total: 99.00,
+    paiement: "paypal"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000018"),
+    client_id: ObjectId("bbb000000000000000000015"),
+    date_commande: new Date("2024-05-06"),
+    statut: "livree",
+    message_cadeau: "Avec tout mon amour!",
+    adresse_livraison: { rue: "8 Rue du Jasmin", ville: "Sousse", code_postal: "4001" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000001"), nom_produit: "Bouquet de Roses Rouges (12 tiges)", quantite: 1, prix_unitaire: 45.00 },
+      { produit_id: ObjectId("ccc000000000000000000016"), nom_produit: "Vase en Verre Soufflé", quantite: 1, prix_unitaire: 29.00 }
+    ],
+    total: 74.00,
+    paiement: "virement"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000019"),
+    client_id: ObjectId("bbb000000000000000000016"),
+    date_commande: new Date("2024-05-07"),
+    statut: "en_cours",
+    message_cadeau: null,
+    adresse_livraison: { rue: "19 Rue de la Mer", ville: "Bizerte", code_postal: "7001" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000013"), nom_produit: "Couronne de Fleurs Séchées", quantite: 1, prix_unitaire: 48.00 },
+      { produit_id: ObjectId("ccc000000000000000000014"), nom_produit: "Bouquet Séché Boho", quantite: 1, prix_unitaire: 35.00 }
+    ],
+    total: 83.00,
+    paiement: "carte"
+  },
+  {
+    _id: ObjectId("ddd000000000000000000020"),
+    client_id: ObjectId("bbb000000000000000000017"),
+    date_commande: new Date("2024-05-08"),
+    statut: "livree",
+    message_cadeau: "Félicitations pour ton succès!",
+    adresse_livraison: { rue: "22 Av. Bourguiba", ville: "Nabeul", code_postal: "8001" },
+    lignes: [
+      { produit_id: ObjectId("ccc000000000000000000006"), nom_produit: "Bouquet Tropical Exotique", quantite: 1, prix_unitaire: 72.00 },
+      { produit_id: ObjectId("ccc000000000000000000018"), nom_produit: "Vase Céramique Artisanal", quantite: 1, prix_unitaire: 38.00 }
+    ],
+    total: 110.00,
+    paiement: "carte"
+  }
+]);
+
+print("=== MISE À JOUR OK ===");
+print("clients     : " + db.clients.countDocuments());
+print("produits    : " + db.produits.countDocuments());
+print("commandes   : " + db.commandes.countDocuments());
+
+use("fleurs_db");
+
+
+
+//les requêtes
+use("fleurs_db");
+// PARTIE 1 : 10 REQUÊTES FIND
+// R1 — Tous les produits de la catégorie "Roses"
+db.produits.find({ categorie_id: ObjectId("aaa000000000000000000001") });
+
+// R2 — Produits dont le prix est inférieur à 40 DT
+db.produits.find({ prix: { $lt: 40 } }, { nom: 1, prix: 1, _id: 0 });
+
+// R3 — Clients actifs uniquement
+db.clients.find({ actif: true }, { nom: 1, email: 1, ville: "$adresse.ville", _id: 0 });
+
+// R4 — Commandes livrées
+db.commandes.find({ statut: "livree" });
+
+// R5 — Commandes avec un message cadeau
+db.commandes.find({ message_cadeau: { $ne: null } }, { client_id: 1, message_cadeau: 1, total: 1 });
+
+// R6 — Produits avec un stock inférieur à 20
+db.produits.find({ stock: { $lt: 20 } }, { nom: 1, stock: 1, _id: 0 });
+
+// R7 — Produits dont la couleur est "blanc"
+db.produits.find({ couleur: "blanc" }, { nom: 1, couleur: 1, prix: 1, _id: 0 });
+
+// R8 — Commandes payées par carte avec total supérieur à 100 DT
+db.commandes.find({ paiement: "carte", total: { $gt: 100 } }, { client_id: 1, total: 1, statut: 1 });
+
+// R9 — Produits ayant au moins un avis (tableau non vide)
+db.produits.find({ avis: { $ne: [] } }, { nom: 1, _id: 0 });
+
+// R10 — Clients habitant à Tunis
+db.clients.find({ "adresse.ville": "Tunis" }, { nom: 1, email: 1, _id: 0 });
+
+
+// PARTIE 2 : 2 REQUÊTES $exists
+
+// E1 — Produits qui ONT un champ "couleur" défini (pas null, existe)
+db.produits.find(
+  { couleur: { $exists: true, $ne: null } },
+  { nom: 1, couleur: 1, _id: 0 }
+);
+
+// E2 — Commandes qui ONT un message cadeau (champ existe et non null)
+db.commandes.find(
+  { message_cadeau: { $exists: true, $ne: null } },
+  { client_id: 1, message_cadeau: 1, _id: 0 }
+);
+
+
+// PARTIE 3 : 2 REQUÊTES countDocuments
+
+
+// C1 — Nombre total de commandes avec statut "livree"
+db.commandes.countDocuments({ statut: "livree" });
+
+// C2 — Nombre de clients actifs
+db.clients.countDocuments({ actif: true });
+
+
+// PARTIE 4 : 2 REQUÊTES UPDATE
+
+// U1 — Mettre à jour le stock d'un produit (Roses Rouges)
+db.produits.updateOne(
+  { _id: ObjectId("ccc000000000000000000001") },
+  { $set: { stock: 75 }, $currentDate: { derniere_maj: true } }
+);
+
+// U2 — Passer toutes les commandes "en_cours" de plus de 97 DT à statut "livree"
+db.commandes.updateMany(
+  { statut: "en_cours", total: { $gte: 97 } },
+  { $set: { statut: "livree" } }
+);
+
+
+// PARTIE 5 : 2 REQUÊTES $lookup (jointure)
+
+// L1 — Commandes avec les infos complètes du client (jointure commandes → clients)
+db.commandes.aggregate([
+  {
+    $lookup: {
+      from: "clients",
+      localField: "client_id",
+      foreignField: "_id",
+      as: "client_info"
+    }
+  },
+  { $unwind: "$client_info" },
+  {
+    $project: {
+      _id: 1,
+      date_commande: 1,
+      statut: 1,
+      total: 1,
+      "client_info.nom": 1,
+      "client_info.email": 1,
+      "client_info.adresse.ville": 1
+    }
+  }
+]);
+
+// L2 — Produits avec les infos de leur catégorie (jointure produits → categories)
+db.produits.aggregate([
+  {
+    $lookup: {
+      from: "categories",
+      localField: "categorie_id",
+      foreignField: "_id",
+      as: "categorie_info"
+    }
+  },
+  { $unwind: "$categorie_info" },
+  {
+    $project: {
+      nom: 1,
+      prix: 1,
+      stock: 1,
+      "categorie_info.nom": 1,
+      "categorie_info.description": 1
+    }
+  }
+]);
+
+
+// PARTIE 6 : 1 REQUÊTE MapReduce
+
+// MR — Total des ventes par statut de commande
+db.commandes.mapReduce(
+  // Fonction MAP : émet (statut → total)
+  function () {
+    emit(this.statut, this.total);
+  },
+  // Fonction REDUCE : additionne les totaux par statut
+  function (statut, totaux) {
+    return Array.sum(totaux);
+  },
+  {
+    out: { inline: 1 }
+  }
+);
+
+
+
+
+// BONUS 1 : INDEX
+// Accélère les recherches les plus fréquentes
+
+// Index sur le prix des produits (recherches par prix fréquentes)
+db.produits.createIndex({ prix: 1 });
+
+// Index sur le statut des commandes
+db.commandes.createIndex({ statut: 1 });
+
+// Index sur l'email client (unicité + recherche rapide)
+db.clients.createIndex({ email: 1 }, { unique: true });
+
+// Index composé : commandes par client + date
+db.commandes.createIndex({ client_id: 1, date_commande: -1 });
+
+// Vérifier les index créés
+db.produits.getIndexes();
+db.commandes.getIndexes();
+db.clients.getIndexes();
+
+// BONUS 2 : SCHEMA VALIDATION
+// VALIDATION CLIENTS
+db.runCommand({
+  collMod: "clients",
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["nom", "email", "adresse", "date_inscription", "actif"],
+      properties: {
+        nom: {
+          bsonType: "string",
+          description: "Le nom est obligatoire et doit être une chaîne"
+        },
+        email: {
+          bsonType: "string",
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+          description: "Email obligatoire et format valide"
+        },
+        telephone: {
+          bsonType: "string",
+          description: "Téléphone doit être une chaîne"
+        },
+        actif: {
+          bsonType: "bool",
+          description: "Actif doit être un booléen"
+        },
+        date_inscription: {
+          bsonType: "date",
+          description: "Date d'inscription obligatoire"
+        },
+        adresse: {
+          bsonType: "object",
+          required: ["ville", "pays"],
+          properties: {
+            ville: { bsonType: "string" },
+            pays:  { bsonType: "string" }
+          }
+        }
+      }
+    }
+  },
+  validationLevel: "moderate",
+  validationAction: "error"
+});
+
+
+//  VALIDATION PRODUITS
+db.runCommand({
+  collMod: "produits",
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["nom", "prix", "stock", "categorie_id"],
+      properties: {
+        nom: {
+          bsonType: "string",
+          description: "Nom du produit obligatoire"
+        },
+        description: {
+          bsonType: "string"
+        },
+        prix: {
+          bsonType: ["double", "int"],
+          minimum: 0,
+          description: "Prix positif obligatoire"
+        },
+        stock: {
+          bsonType: "int",
+          minimum: 0,
+          description: "Stock positif obligatoire"
+        },
+        couleur: {
+          bsonType: ["string", "null"]
+        },
+        categorie_id: {
+          bsonType: "objectId",
+          description: "Référence catégorie obligatoire"
+        },
+        avis: {
+          bsonType: "array",
+          description: "Liste des avis"
+        }
+      }
+    }
+  },
+  validationLevel: "moderate",
+  validationAction: "error"
+});
+
+
+//  VALIDATION CATEGORIES
+db.runCommand({
+  collMod: "categories",
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["nom", "description"],
+      properties: {
+        nom: {
+          bsonType: "string",
+          description: "Nom catégorie obligatoire"
+        },
+        description: {
+          bsonType: "string",
+          description: "Description obligatoire"
+        }
+      }
+    }
+  },
+  validationLevel: "moderate",
+  validationAction: "error"
+});
+
+
+// VALIDATION COMMANDES
+db.runCommand({
+  collMod: "commandes",
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: [
+        "client_id",
+        "date_commande",
+        "statut",
+        "lignes",
+        "total",
+        "paiement"
+      ],
+      properties: {
+
+        client_id: {
+          bsonType: "objectId",
+          description: "Client obligatoire"
+        },
+
+        date_commande: {
+          bsonType: "date",
+          description: "Date commande obligatoire"
+        },
+
+        statut: {
+          bsonType: "string",
+          enum: ["en_cours", "livree", "annulee"],
+          description: "Statut valide obligatoire"
+        },
+
+        message_cadeau: {
+          bsonType: ["string", "null"]
+        },
+
+        adresse_livraison: {
+          bsonType: "object",
+          required: ["ville"],
+          properties: {
+            rue: { bsonType: "string" },
+            ville: { bsonType: "string" },
+            code_postal: { bsonType: "string" }
+          }
+        },
+
+        lignes: {
+          bsonType: "array",
+          description: "Liste des produits commandés"
+        },
+
+        total: {
+          bsonType: ["double", "int"],
+          minimum: 0,
+          description: "Total positif obligatoire"
+        },
+
+        paiement: {
+          bsonType: "string",
+          enum: ["carte", "paypal", "virement"],
+          description: "Mode paiement valide"
+        }
+      }
+    }
+  },
+  validationLevel: "moderate",
+  validationAction: "error"
+});
+
+
+// BONUS 3 : REQUÊTES D'AGRÉGATION AVANCÉES
+
+// A1 — Chiffre d'affaires total par catégorie
+db.commandes.aggregate([
+  { $unwind: "$lignes" },
+  {
+    $lookup: {
+      from: "produits",
+      localField: "lignes.produit_id",
+      foreignField: "_id",
+      as: "produit_info"
+    }
+  },
+  { $unwind: "$produit_info" },
+  {
+    $lookup: {
+      from: "categories",
+      localField: "produit_info.categorie_id",
+      foreignField: "_id",
+      as: "categorie_info"
+    }
+  },
+  { $unwind: "$categorie_info" },
+  {
+    $group: {
+      _id: "$categorie_info.nom",
+      chiffre_affaires: {
+        $sum: { $multiply: ["$lignes.quantite", "$lignes.prix_unitaire"] }
+      },
+      nb_articles_vendus: { $sum: "$lignes.quantite" }
+    }
+  },
+  { $sort: { chiffre_affaires: -1 } }
+]);
+
+// A2 — Top 3 clients par montant total dépensé
+db.commandes.aggregate([
+  { $match: { statut: { $ne: "annulee" } } },
+  {
+    $group: {
+      _id: "$client_id",
+      total_depense: { $sum: "$total" },
+      nb_commandes: { $sum: 1 }
+    }
+  },
+  {
+    $lookup: {
+      from: "clients",
+      localField: "_id",
+      foreignField: "_id",
+      as: "client_info"
+    }
+  },
+  { $unwind: "$client_info" },
+  {
+    $project: {
+      _id: 0,
+      nom: "$client_info.nom",
+      email: "$client_info.email",
+      total_depense: 1,
+      nb_commandes: 1
+    }
+  },
+  { $sort: { total_depense: -1 } },
+  { $limit: 3 }
+]);
+
+// A3 — Note moyenne par produit (depuis les avis embedded)
+db.produits.aggregate([
+  { $match: { "avis.0": { $exists: true } } },
+  {
+    $project: {
+      nom: 1,
+      nb_avis: { $size: "$avis" },
+      note_moyenne: { $avg: "$avis.note" }
+    }
+  },
+  { $sort: { note_moyenne: -1 } }
+]);
+
+print("=== BONUS EXÉCUTÉS AVEC SUCCÈS ===");
